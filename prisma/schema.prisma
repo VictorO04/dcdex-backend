@@ -1,0 +1,82 @@
+generator client {
+  provider = "prisma-client"
+  output   = "./generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model afiliacoes {
+  id                     Int                      @id @default(autoincrement())
+  nome                   String                   @unique @db.VarChar(100)
+  personagens_afiliacoes personagens_afiliacoes[]
+}
+
+model criadores {
+  id                    Int                     @id @default(autoincrement())
+  nome                  String                  @db.VarChar(100)
+  personagens_criadores personagens_criadores[]
+}
+
+model fraquezas {
+  id                    Int                     @id @default(autoincrement())
+  nome                  String                  @unique @db.VarChar(100)
+  personagens_fraquezas personagens_fraquezas[]
+}
+
+model habilidades {
+  id                      Int                       @id @default(autoincrement())
+  nome                    String                    @db.VarChar(100)
+  personagens_habilidades personagens_habilidades[]
+}
+
+model personagens {
+  id                      Int                       @id @default(autoincrement())
+  img_personagem_url      String
+  codinome                String                    @unique @db.VarChar(100)
+  identidade              String                    @db.VarChar(100)
+  primeira_aparicao       String                    @db.VarChar(100)
+  historia_resumida       String
+  personalidade           String
+  personagens_afiliacoes  personagens_afiliacoes[]
+  personagens_criadores   personagens_criadores[]
+  personagens_fraquezas   personagens_fraquezas[]
+  personagens_habilidades personagens_habilidades[]
+}
+
+model personagens_afiliacoes {
+  personagem_id Int
+  afiliacao_id  Int
+  afiliacoes    afiliacoes  @relation(fields: [afiliacao_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  personagens   personagens @relation(fields: [personagem_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([personagem_id, afiliacao_id])
+}
+
+model personagens_criadores {
+  personagem_id Int
+  criador_id    Int
+  criadores     criadores   @relation(fields: [criador_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  personagens   personagens @relation(fields: [personagem_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([personagem_id, criador_id])
+}
+
+model personagens_fraquezas {
+  personagem_id Int
+  fraqueza_id   Int
+  fraquezas     fraquezas   @relation(fields: [fraqueza_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  personagens   personagens @relation(fields: [personagem_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([personagem_id, fraqueza_id])
+}
+
+model personagens_habilidades {
+  personagem_id Int
+  habilidade_id Int
+  habilidades   habilidades @relation(fields: [habilidade_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  personagens   personagens @relation(fields: [personagem_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([personagem_id, habilidade_id])
+}
