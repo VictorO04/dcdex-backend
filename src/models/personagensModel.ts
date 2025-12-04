@@ -5,3 +5,9 @@ export const findAllPersonagens = async () => {
         orderBy: { codinome: "asc" }
     });
 }
+
+export const findPersonagemById = async (id: number) => {
+    return await prisma.personagens.findUnique({
+        where: { id: id }
+    });
+}
