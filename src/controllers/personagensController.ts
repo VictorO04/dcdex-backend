@@ -29,7 +29,7 @@ export const getPersonagemByID = async (req: Request, res: Response) => {
         if (isNaN(id)) {
             return res.status(400).json({
                 total: 0,
-                mensagem: `O id que foi digitado não é um número. Ele precisa ser um número!`
+                mensagem: "O id que foi digitado não é um número. Ele precisa ser um número!"
             });
         }
 
@@ -47,6 +47,19 @@ export const getPersonagemByID = async (req: Request, res: Response) => {
             mensagem: `O personagem com o id ${id} foi encontrado`,
             personagem: personagem
         });
+    } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : "Um erro desconhecido ocorreu.";
+
+        res.status(500).json({
+            mensagem: "Erro interno do servidor",
+            detalhes: errorMessage
+        });
+    }
+}
+
+export const createPersonagem = async (req: Request, res: Response) => {
+    try {
+        
     } catch (error) {
         const errorMessage = error instanceof Error ? error.message : "Um erro desconhecido ocorreu.";
 
