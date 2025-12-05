@@ -25,3 +25,9 @@ export const createPersonagem = async (data: createPersonagemDTO) => {
         }
     });
 }
+
+export const deletePersonagem = async (id: number) => {
+    return await prisma.personagens.delete({
+        where: { id: id }
+    });
+}

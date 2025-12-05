@@ -1,4 +1,3 @@
-import { type } from "node:os";
 import * as personagensModel from "../models/personagensModel.js";
 import { Request, Response, NextFunction} from "express";
 
@@ -112,6 +111,42 @@ export const createPersonagem = async (req: Request, res: Response) => {
             total: 1,
             mensagem: "Personagem criado com sucesso",
             personagem: novoPersonagem
+        });
+    } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : "Um erro desconhecido ocorreu.";
+
+        res.status(500).json({
+            mensagem: "Erro interno do servidor",
+            detalhes: errorMessage
+        });
+    }
+}
+
+export const deletePersonagem = async (req: Request, res: Response) => {
+    try {
+        const id = parseInt(req.params.id);
+
+        if (isNaN(id)) {
+            return res.status(400).json({
+                total: 0,
+                mensagem: "O id que foi digitado não é um número. Ele precisa ser um número!"
+            });
+        }
+
+        const personagemExiste = await personagensModel.findPersonagemById(id);
+        if (!personagemExiste) {
+            return res.status(404).json({
+                total: 0,
+                mensagem: `O personagem com o id ${id} não foi encontrado`
+            })
+        }
+
+        await personagensModel.deletePersonagem(id);
+
+        res.status(200).json({
+            total: 1,
+            mensagem: `Personagem com o id ${id} deletado com sucesso`,
+            personagem: personagemExiste
         });
     } catch (error) {
         const errorMessage = error instanceof Error ? error.message : "Um erro desconhecido ocorreu.";
