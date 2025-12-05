@@ -81,9 +81,6 @@ CREATE UNIQUE INDEX "afiliacoes_nome_key" ON "afiliacoes"("nome");
 -- CreateIndex
 CREATE UNIQUE INDEX "fraquezas_nome_key" ON "fraquezas"("nome");
 
--- CreateIndex
-CREATE UNIQUE INDEX "personagens_codinome_key" ON "personagens"("codinome");
-
 -- AddForeignKey
 ALTER TABLE "personagens_afiliacoes" ADD CONSTRAINT "personagens_afiliacoes_afiliacao_id_fkey" FOREIGN KEY ("afiliacao_id") REFERENCES "afiliacoes"("id") ON DELETE CASCADE ON UPDATE NO ACTION;
 

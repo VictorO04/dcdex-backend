@@ -1,5 +1,5 @@
 import { prisma } from "../../.lib/prisma";
-import { createPersonagemDTO } from "../dtos/createPersonagemDTO";
+import { createPersonagemDTO } from "../dtos/createPersonagemDTO.js";
 
 export const findAllPersonagens = async () => {
     return await prisma.personagens.findMany({

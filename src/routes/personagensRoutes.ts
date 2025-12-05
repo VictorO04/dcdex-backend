@@ -5,5 +5,6 @@ const router = Router();
 
 router.get("/", personagensController.getAllPersonagens);
 router.get("/:id", personagensController.getPersonagemByID);
+router.post("/", personagensController.createPersonagem);
 
 export default router;

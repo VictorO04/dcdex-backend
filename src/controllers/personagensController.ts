@@ -1,3 +1,4 @@
+import { type } from "node:os";
 import * as personagensModel from "../models/personagensModel.js";
 import { Request, Response } from "express";
 
@@ -59,7 +60,47 @@ export const getPersonagemByID = async (req: Request, res: Response) => {
 
 export const createPersonagem = async (req: Request, res: Response) => {
     try {
-        
+        const data = req.body;
+
+        if (!data || typeof data !== "object") {
+            return res.status(400).json({
+                total: 0,
+                mensagem: "O corpo da requisição deve ser um JSON válido"
+            });
+        }
+
+        const { img_personagem_url, codinome, identidade, primeira_aparicao, historia_resumida, personalidade } = data;
+
+        const camposObrigatorios = [ "img_personagem_url", "codinome", "identidade", "primeira_aparicao", "historia_resumida", "personalidade" ];
+        const camposFaltando = camposObrigatorios.filter((campo) => {
+            const valor = data[campo];
+            return (
+                valor === undefined ||
+                valor === null ||
+                (typeof valor === "string" && valor.trim() === "")
+            );
+        });
+        if (camposFaltando.length > 0) {
+            return res.status(400).json({
+                total: 0,
+                mensagem: `Os seguintes campos obrigatórios estão faltando ou vazios: ${camposFaltando.join(", ")}`
+            });
+        }
+
+        const novoPersonagem = await personagensModel.createPersonagem({
+            img_personagem_url,
+            codinome,
+            identidade,
+            primeira_aparicao,
+            historia_resumida,
+            personalidade
+        });
+
+        res.status(201).json({
+            total: 1,
+            mensagem: "Personagem criado com sucesso",
+            personagem: novoPersonagem
+        });
     } catch (error) {
         const errorMessage = error instanceof Error ? error.message : "Um erro desconhecido ocorreu.";
 
