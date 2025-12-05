@@ -8,5 +8,6 @@ router.get("/", personagensController.getAllPersonagens);
 router.get("/:id", personagensController.getPersonagemByID);
 router.post("/", authMiddleware, personagensController.createPersonagem);
 router.delete("/:id", authMiddleware, personagensController.deletePersonagem);
+router.put("/:id", authMiddleware, personagensController.updatePersonagem);
 
 export default router;

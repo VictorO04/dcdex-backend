@@ -1,5 +1,6 @@
 import { prisma } from "../../.lib/prisma.js";
 import { createPersonagemDTO } from "../dtos/createPersonagemDTO.js";
+import { updatePersonagemDTO } from "../dtos/updatePersonagemDTO.js";
 
 export const findAllPersonagens = async () => {
     return await prisma.personagens.findMany({
@@ -29,5 +30,19 @@ export const createPersonagem = async (data: createPersonagemDTO) => {
 export const deletePersonagem = async (id: number) => {
     return await prisma.personagens.delete({
         where: { id: id }
+    });
+}
+
+export const updatePersonagem = async (id: number, data: updatePersonagemDTO) => {
+    return await prisma.personagens.update({
+        where:{ id: id },
+        data: {
+            ...(data.img_personagem_url !== undefined && { img_personagem_url: data.img_personagem_url }),
+            ...(data.codinome !== undefined && { codinome: data.codinome }),
+            ...(data.identidade !== undefined && { identidade: data.identidade }),
+            ...(data.primeira_aparicao !== undefined && { primeira_aparicao: data.primeira_aparicao }),
+            ...(data.historia_resumida !== undefined && { historia_resumida: data.historia_resumida }),
+            ...(data.personalidade !== undefined && { personalidade: data.personalidade })
+        }
     });
 }
