@@ -14,6 +14,13 @@ export const findPersonagemById = async (id: number) => {
     });
 }
 
+export const findPersonagemByCodinome = async (codinome: string) => {
+    return await prisma.personagens.findMany({
+        where: { codinome: codinome },
+        orderBy: { codinome: "asc" }
+    });
+}
+
 export const createPersonagem = async (data: createPersonagemDTO) => {
     return await prisma.personagens.create({
         data: {

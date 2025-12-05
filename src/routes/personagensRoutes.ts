@@ -6,6 +6,7 @@ const router = Router();
 
 router.get("/", personagensController.getAllPersonagens);
 router.get("/:id", personagensController.getPersonagemByID);
+router.get("/codinome/:codinome", personagensController.getPersonagemByCodinome);
 router.post("/", authMiddleware, personagensController.createPersonagem);
 router.delete("/:id", authMiddleware, personagensController.deletePersonagem);
 router.put("/:id", authMiddleware, personagensController.updatePersonagem);

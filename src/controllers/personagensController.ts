@@ -69,6 +69,33 @@ export const getPersonagemByID = async (req: Request, res: Response) => {
     }
 }
 
+export const getPersonagemByCodinome = async (req: Request, res: Response) => {
+    try {
+        const { codinome } = req.params;
+        
+        const personagens = await personagensModel.findPersonagemByCodinome(codinome);
+        if (!personagens || personagens.length === 0) {
+            return res.status(404).json({
+                total: 0,
+                mensagem: `Nenhum personagem com o codinome ${codinome} encontrado`
+            });
+        }
+
+        res.status(200).json({
+            total: personagens.length,
+            mensagem: `Personagens encontrados com o codinome ${codinome} no banco de dados`,
+            personagens: personagens
+        });
+    } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : "Um erro desconhecido ocorreu.";
+
+        res.status(500).json({
+            mensagem: "Erro interno do servidor",
+            detalhes: errorMessage
+        });
+    }
+}
+
 export const createPersonagem = async (req: Request, res: Response) => {
     try {
         const data = req.body;
