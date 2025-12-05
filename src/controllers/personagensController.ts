@@ -1,6 +1,18 @@
 import { type } from "node:os";
 import * as personagensModel from "../models/personagensModel.js";
-import { Request, Response } from "express";
+import { Request, Response, NextFunction} from "express";
+
+export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
+    const token = req.headers["authorization"];
+
+    if (token !== process.env.API_SECRET) {
+        return res.status(401).json({
+            mensagem: "Não autorizado"
+        });
+    }
+
+    next();
+}
 
 export const getAllPersonagens = async (req: Request, res: Response) => {
     try {

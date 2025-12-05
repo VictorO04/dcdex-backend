@@ -1,4 +1,4 @@
-import { prisma } from "../../.lib/prisma";
+import { prisma } from "../../.lib/prisma.js";
 import { createPersonagemDTO } from "../dtos/createPersonagemDTO.js";
 
 export const findAllPersonagens = async () => {
